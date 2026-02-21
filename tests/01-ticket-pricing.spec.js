@@ -67,5 +67,23 @@ describe('01 - Starlight Cinema: Ticket Pricing (8 pts)', () => {
     test('Negative age on a weekend should also return -1', () => {
       expect(getTicketPrice(-5, true)).toBe(-1);
     });
+
+    test('Age as a string should return -1', () => {
+      expect(getTicketPrice('10', false)).toBe(-1);
+    });
+
+    test('Age as NaN should return -1', () => {
+      expect(getTicketPrice(NaN, false)).toBe(-1);
+    });
+  });
+
+  describe('Other cases', () => {
+    test('Missing isWeekend should behave as weekday (no surcharge)', () => {
+      expect(getTicketPrice(30)).toBe(15);
+    });
+
+    test('Very large age (e.g. 120) should be treated as senior', () => {
+      expect(getTicketPrice(120, false)).toBe(10);
+    });
   });
 });
